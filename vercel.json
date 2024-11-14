@@ -1,0 +1,20 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "src/index.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/update-ranking-and-notes",
+        "dest": "src/index.js"
+      },
+      {
+        "src": "/update-performance",
+        "dest": "src/index.js"
+      }
+    ]
+  }
+  

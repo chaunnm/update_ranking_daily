@@ -10,7 +10,7 @@ document.getElementById("callApi").addEventListener("click", function () {
   ]; // Example, can be dynamic
   const spreadsheetId = "1xXv5NWRtbtnk85wN9_lpxWIqvQLA4IxgcGW7uszB45I"; // Replace with your actual sheet ID
 
-  fetch("http://localhost:3000/update-ranking-and-notes", {
+  fetch("http://localhost:3000/update-performance", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
