@@ -7,14 +7,10 @@
       }
     ],
     "routes": [
-      {
-        "src": "/update-ranking-and-notes",
-        "dest": "src/index.js"
-      },
-      {
-        "src": "/update-performance",
-        "dest": "src/index.js"
-      }
-    ]
+    {
+      "src": "/api/(.*)",
+      "dest": "/src/index.js"
+    }
+  ]
   }
   
