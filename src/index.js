@@ -293,6 +293,8 @@ const updatePerformance = async (sheets, spreadsheetId, sheetName) => {
 
 // Update Rankings and Notes
 app.post("/update-ranking-and-notes", async (req, res) => {
+  const startTime = Date.now();
+
   // const { sheetNames, spreadsheetId } = req.body;
   const { sheetName, spreadsheetId } = req.body;
 
@@ -311,11 +313,18 @@ app.post("/update-ranking-and-notes", async (req, res) => {
     // }
     await updateRankingAndNotes(sheets, spreadsheetId, sheetName);
 
-    res.send({ message: "Ranking and notes updated successfully." });
+    const endTime = Date.now(); // Ghi lại thời gian kết thúc
+    const duration = (endTime - startTime) / 1000; // Tính thời gian thực thi (giây)
+
+    res.send({
+      message: `Ranking and notes updated successfully, ${duration} seconds`,
+    });
   } catch (error) {
     console.error(error);
+    const endTime = Date.now(); // Ghi lại thời gian kết thúc
+    const duration = (endTime - startTime) / 1000; // Tính thời gian thực thi (giây)
     res.status(500).send({
-      message: `Error updating ranking and notes: ${error.message}`,
+      message: `Error updating ranking and notes: ${error.message} - ${duration} seconds`,
     });
   }
 });
