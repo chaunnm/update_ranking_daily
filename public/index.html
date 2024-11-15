@@ -25,7 +25,7 @@
         const fetchPromises = sheetNames.map((sheet) => {
           const startTime = Date.now(); // Ghi lại thời gian bắt đầu
           return fetch(
-            "http://update-ranking-daily.vercel.app/update-ranking-and-notes",
+            "https://update-ranking-daily.vercel.app/update-ranking-and-notes",
             {
               method: "POST",
               headers: {
