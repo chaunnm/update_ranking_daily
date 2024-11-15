@@ -24,16 +24,19 @@
         // Khởi tạo danh sách các promises cho fetch
         const fetchPromises = sheetNames.map((sheet) => {
           const startTime = Date.now(); // Ghi lại thời gian bắt đầu
-          return fetch("http://localhost:3000/update-ranking-and-notes", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              sheetName: sheet,
-              spreadsheetId: spreadsheetId,
-            }),
-          })
+          return fetch(
+            "http://update-ranking-daily.vercel.app/update-ranking-and-notes",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                sheetName: sheet,
+                spreadsheetId: spreadsheetId,
+              }),
+            }
+          )
             .then(async (res) => {
               const data = await res.json();
               const endTime = Date.now(); // Ghi lại thời gian kết thúc
