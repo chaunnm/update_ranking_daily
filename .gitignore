@@ -16,6 +16,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-credentials.json
 test.js
 .vercel

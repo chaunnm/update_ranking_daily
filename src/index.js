@@ -61,29 +61,6 @@ const processBatch = async (sheets, spreadsheetId, batch, updateFunc) => {
 };
 
 const updateRankingAndNotes = async (sheets, spreadsheetId, sheetName) => {
-  const columnNumberToLetter = (col) => {
-    let letter = "";
-    while (col > 0) {
-      const remainder = (col - 1) % 26;
-      letter = String.fromCharCode(65 + remainder) + letter;
-      col = Math.floor((col - 1) / 26);
-    }
-    return letter;
-  };
-
-  const findColumnIndex = (row, columnName) => row.indexOf(columnName) + 1;
-
-  const getLastColumnWithData = (values) => {
-    if (!values || values.length === 0) return -1; // No data
-    let lastColumn = -1;
-    for (let row of values) {
-      if (row && row.length > 0) {
-        lastColumn = Math.max(lastColumn, row.length);
-      }
-    }
-    return lastColumn; // Return 1-based column index
-  };
-
   try {
     const sheetData = await sheets.spreadsheets.get({
       spreadsheetId,
@@ -217,16 +194,6 @@ const updateRankingAndNotes = async (sheets, spreadsheetId, sheetName) => {
 
 const updatePerformance = async (sheets, spreadsheetId, sheetName) => {
   try {
-    const columnNumberToLetter = (col) => {
-      let letter = "";
-      while (col > 0) {
-        const remainder = (col - 1) % 26;
-        letter = String.fromCharCode(65 + remainder) + letter;
-        col = Math.floor((col - 1) / 26);
-      }
-      return letter;
-    };
-
     const sheetData = await sheets.spreadsheets.get({
       spreadsheetId,
     });
@@ -326,20 +293,23 @@ const updatePerformance = async (sheets, spreadsheetId, sheetName) => {
 
 // Update Rankings and Notes
 app.post("/update-ranking-and-notes", async (req, res) => {
-  const { sheetNames, spreadsheetId } = req.body;
+  // const { sheetNames, spreadsheetId } = req.body;
+  const { sheetName, spreadsheetId } = req.body;
 
-  if (!sheetNames || !spreadsheetId) {
+  // if (!sheetNames || !spreadsheetId) {
+  if (!sheetName || !spreadsheetId) {
     return res.status(400).send({ message: "Missing required fields" });
   }
 
   try {
     const sheets = await getSheets();
-    const batchSize = 2; // Số lượng sheet xử lý mỗi batch
-    const batches = splitIntoBatches(sheetNames, batchSize);
+    // const batchSize = 2;
+    // const batches = splitIntoBatches(sheetNames, batchSize);
 
-    for (const batch of batches) {
-      await processBatch(sheets, spreadsheetId, batch, updateRankingAndNotes);
-    }
+    // for (const batch of batches) {
+    // await processBatch(sheets, spreadsheetId, batch, updateRankingAndNotes);
+    // }
+    await updateRankingAndNotes(sheets, spreadsheetId, sheetName);
 
     res.send({ message: "Ranking and notes updated successfully." });
   } catch (error) {
