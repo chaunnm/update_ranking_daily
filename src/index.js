@@ -329,6 +329,48 @@ app.post("/update-ranking-and-notes", async (req, res) => {
   }
 });
 
+app.post("/update-ranking-and-notes-timeout", async (req, res) => {
+  const startTime = Date.now();
+
+  // const { sheetNames, spreadsheetId } = req.body;
+  const {
+    sheetName,
+    spreadsheetId,
+    startIndex = 12,
+    batchSize = 30,
+  } = req.body;
+
+  // if (!sheetNames || !spreadsheetId) {
+  if (!sheetName || !spreadsheetId) {
+    return res.status(400).send({ message: "Missing required fields" });
+  }
+
+  try {
+    const sheets = await getSheets();
+    // const batchSize = 2;
+    // const batches = splitIntoBatches(sheetNames, batchSize);
+
+    // for (const batch of batches) {
+    // await processBatch(sheets, spreadsheetId, batch, updateRankingAndNotes);
+    // }
+    await updateRankingAndNotes(sheets, spreadsheetId, sheetName);
+
+    const endTime = Date.now(); // Ghi lại thời gian kết thúc
+    const duration = (endTime - startTime) / 1000; // Tính thời gian thực thi (giây)
+
+    res.send({
+      message: `Ranking and notes updated successfully, ${duration} seconds`,
+    });
+  } catch (error) {
+    console.error(error);
+    const endTime = Date.now(); // Ghi lại thời gian kết thúc
+    const duration = (endTime - startTime) / 1000; // Tính thời gian thực thi (giây)
+    res.status(500).send({
+      message: `Error updating ranking and notes: ${error.message} - ${duration} seconds`,
+    });
+  }
+});
+
 // Update Performance
 app.post("/update-performance", async (req, res) => {
   const { sheetNames, spreadsheetId } = req.body;
